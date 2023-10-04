@@ -1,0 +1,30 @@
+{
+  "name": "zksync-bot",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "withdraw": "tsx src/funding/withdraw.ts",
+    "deposit": "tsx src/funding/deposit.ts",
+    "start": "tsx src/index.ts flexMarket 0x07fa7673f4cee6ec2671aa5da6fecacd2848e083e049266a4092382188035d79",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.3.1",
+    "p-limit": "^4.0.0",
+    "picocolors": "^1.0.0",
+    "prompts": "^2.4.2",
+    "viem": "^1.8.1"
+  },
+  "devDependencies": {
+    "@holazz/eslint-config": "^1.4.7",
+    "@types/crypto-js": "^4.1.1",
+    "@types/prompts": "^2.4.4",
+    "eslint": "^8.38.0",
+    "prettier": "^2.8.8",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
+  }
+}
