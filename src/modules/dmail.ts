@@ -1,5 +1,8 @@
+import 'dotenv/config'
+import { Contract } from 'ethers'
 import { sendTransaction } from '../utils'
-import type { Address, PublicClient, WalletClient } from 'viem'
+import type { Wallet } from 'ethers'
+import type { Hex } from '../types'
 
 const abi = [
   {
@@ -14,24 +17,19 @@ const abi = [
   },
 ] as const
 
-function getCalls(address: Address) {
+function getCalls(address: string) {
   return {
-    address: '0x981F198286E40F9979274E0876636E9144B8FB8E',
-    abi,
+    contract: new Contract('0x981F198286E40F9979274E0876636E9144B8FB8E', abi),
     functionName: 'send_mail',
     args: [`${address}@dmail.ai`, 'dmailteam@dmail.ai'],
-  } as const
+  }
 }
 
 export default {
   title: 'Dmail',
   description: '向 dmailteam@dmail.ai 发送邮件',
   value: 'dmail',
-  calls: (address: Address) => getCalls(address),
-  sendTransaction: (publicClient: PublicClient, walletClient: WalletClient) =>
-    sendTransaction(
-      publicClient,
-      walletClient,
-      getCalls(walletClient.account!.address)
-    ),
+  calls: (address: Hex) => getCalls(address),
+  sendTransaction: (signer: Wallet) =>
+    sendTransaction(signer, getCalls(signer.address)),
 }

@@ -1,70 +1,40 @@
 import 'dotenv/config'
-import { createPublicClient, createWalletClient, formatEther, http } from 'viem'
-import { zkSync, zkSyncTestnet } from 'viem/chains'
-import { privateKeyToAccount } from 'viem/accounts'
+import { utils } from 'ethers'
+import { Provider } from 'zksync-web3'
 import c from 'picocolors'
 import { resolvedWallets } from '../config'
 import { getETHPrice } from '../api'
-import type {
-  EstimateContractGasParameters,
-  Hex,
-  PublicClient,
-  SimulateContractParameters,
-  WalletClient,
-} from 'viem'
+import type { Wallet } from 'ethers'
+import type { Calls } from '../types'
 
-export function getClient(): PublicClient
-export function getClient(privateKey?: Hex): WalletClient
-export function getClient(privateKey?: Hex): PublicClient | WalletClient {
-  const chain = process.env.NETWORK === 'mainnet' ? zkSync : zkSyncTestnet
-
-  if (!privateKey) {
-    return createPublicClient({
-      chain,
-      transport: http(),
-    })
-  }
-
-  return createWalletClient({
-    account: privateKeyToAccount(privateKey),
-    chain,
-    transport: http(),
-  })
-}
-
-export async function estimateGasFee(
-  publicClient: PublicClient,
-  calls: EstimateContractGasParameters
-) {
-  const [gas, gasPrice, ethPrice] = await Promise.all([
-    publicClient.estimateContractGas(calls),
-    publicClient.getGasPrice(),
-    getETHPrice(),
-  ])
-  return Number(
-    (Number(gas) * Number(formatEther(gasPrice)) * ethPrice).toFixed(2)
+export function getProvider() {
+  return new Provider(
+    process.env.NETWORK === 'mainnet'
+      ? 'https://mainnet.era.zksync.io'
+      : 'https://testnet.era.zksync.dev'
   )
 }
 
-export async function sendTransaction(
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  calls: SimulateContractParameters
-) {
-  const nonce =
-    (await publicClient.getTransactionCount({
-      address: walletClient.account!.address,
-    })) + 1
-  const { request } = await publicClient.simulateContract({
-    ...calls,
-    account: walletClient.account!,
-  })
-  const tx = await walletClient.writeContract(request)
-  return {
-    address: generateWalletTitle(walletClient.account!.address),
-    nonce,
-    tx,
-  }
+export async function estimateGasFee(signer: Wallet, calls: Calls) {
+  const { contract, functionName, args } = calls
+  const [gas, gasPrice, ethPrice] = await Promise.all([
+    signer.estimateGas({
+      to: contract.address,
+      data: contract.interface.encodeFunctionData(functionName, args),
+    }),
+    signer.getGasPrice(),
+    getETHPrice(),
+  ])
+  return Number(
+    (Number(gas) * Number(utils.formatEther(gasPrice)) * ethPrice).toFixed(2)
+  )
+}
+
+export async function sendTransaction(signer: Wallet, calls: Calls) {
+  const nonce = await signer.getTransactionCount()
+  const { contract, functionName, args } = calls
+  const { hash } = await contract.connect(signer)[functionName](...args)
+  return { address: signer.address, nonce, tx: hash }
 }
 
 export function ethToUsd(eth: number | string, ethPrice: number) {

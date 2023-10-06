@@ -1,9 +1,17 @@
-import type { Hex } from 'viem'
+import type { Contract } from 'ethers'
 
-export interface Wallet {
+export type Hex = `0x${string}`
+
+export interface WalletConfig {
   privateKey: Hex
   address: Hex
   label?: string
+}
+
+export interface Calls {
+  contract: Contract
+  functionName: string
+  args: any[]
 }
 
 export interface Currency {

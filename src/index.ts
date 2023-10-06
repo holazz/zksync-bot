@@ -1,9 +1,11 @@
 import c from 'picocolors'
 import prompts from 'prompts'
-import { estimateGasFee, generateWalletTitle, getClient } from './utils'
+import { Wallet } from 'zksync-web3'
+import { estimateGasFee, generateWalletTitle, getProvider } from './utils'
 import { resolvedWallets } from './config'
 import modules from './modules'
-import type { Account, Address, SimulateContractParameters } from 'viem'
+import type { Provider } from 'zksync-web3'
+import type { Calls, WalletConfig } from './types'
 
 async function getConfig() {
   const input = process.argv.slice(2)
@@ -54,14 +56,12 @@ async function getConfig() {
 }
 
 async function beforeSubmitTransaction(
-  calls: SimulateContractParameters,
-  account: Account | Address
+  provider: Provider,
+  wallet: WalletConfig,
+  calls: Calls
 ) {
-  const publicClient = getClient()
-  const fee = await estimateGasFee(publicClient, {
-    account,
-    ...calls,
-  })
+  const signer = new Wallet(wallet.privateKey, provider)
+  const fee = await estimateGasFee(signer, calls)
   if (process.env.TRANSACTION_CONFIRM === 'true') {
     const { value } = await prompts({
       type: 'confirm',
@@ -79,21 +79,18 @@ async function run() {
   const { project, wallets } = await getConfig()
   const module = modules.find((m) => m.value === project)!
 
+  const provider = getProvider()
   const isSubmit = await beforeSubmitTransaction(
-    (await module.calls(
-      wallets[0].address
-    )) as unknown as SimulateContractParameters,
-    wallets[0].address
+    provider,
+    wallets[0],
+    module.calls(wallets[0].address)
   )
 
   if (!isSubmit) return
 
   const promises = wallets.map(async (wallet) => {
-    const [publicClient, walletClient] = [
-      getClient(),
-      getClient(wallet.privateKey),
-    ]
-    return module.sendTransaction(publicClient, walletClient)
+    const signer = new Wallet(wallet.privateKey, provider)
+    return module.sendTransaction(signer)
   })
 
   const res = await Promise.all(promises)
