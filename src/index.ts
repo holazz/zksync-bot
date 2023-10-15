@@ -1,11 +1,11 @@
 import c from 'picocolors'
 import prompts from 'prompts'
 import { Wallet } from 'zksync-web3'
-import { estimateGasFee, generateWalletTitle, getProvider } from './utils'
-import { resolvedWallets } from './config'
+import { generateWalletTitle, getProvider } from './utils'
+import { resolvedWallets } from './configs/wallets'
 import modules from './modules'
 import type { Provider } from 'zksync-web3'
-import type { Calls, WalletConfig } from './types'
+import type { WalletConfig } from './types'
 
 async function getConfig() {
   const input = process.argv.slice(2)
@@ -58,10 +58,10 @@ async function getConfig() {
 async function beforeSubmitTransaction(
   provider: Provider,
   wallet: WalletConfig,
-  calls: Calls
+  module: (typeof modules)[0]
 ) {
   const signer = new Wallet(wallet.privateKey, provider)
-  const fee = await estimateGasFee(signer, calls)
+  const fee = await module.estimateGasFee(signer)
   if (process.env.TRANSACTION_CONFIRM === 'true') {
     const { value } = await prompts({
       type: 'confirm',
@@ -80,11 +80,7 @@ async function run() {
   const module = modules.find((m) => m.value === project)!
 
   const provider = getProvider()
-  const isSubmit = await beforeSubmitTransaction(
-    provider,
-    wallets[0],
-    module.calls(wallets[0].address)
-  )
+  const isSubmit = await beforeSubmitTransaction(provider, wallets[0], module)
 
   if (!isSubmit) return
 
@@ -95,19 +91,22 @@ async function run() {
 
   const res = await Promise.all(promises)
 
-  res.flat().forEach((r) => {
-    console.log(
-      `\n${c.bold(r.address)}\n${c.bold('Nonce: ')}${c.yellow(
-        r.nonce.toString()
-      )}\n${c.bold('Transaction: ')}${c.green(
-        `${
-          process.env.NETWORK === 'mainnet'
-            ? 'https://explorer.zksync.io/tx/'
-            : 'https://goerli.explorer.zksync.io/tx/'
-        }${r.tx}`
-      )}\n`
-    )
-  })
+  res
+    .flat()
+    .filter(Boolean)
+    .forEach((r) => {
+      console.log(
+        `\n${c.bold(generateWalletTitle(r!.address))}\n${c.bold(
+          'Nonce: '
+        )}${c.yellow(r!.nonce.toString())}\n${c.bold('Transaction: ')}${c.green(
+          `${
+            process.env.NETWORK === 'mainnet'
+              ? 'https://explorer.zksync.io/tx/'
+              : 'https://goerli.explorer.zksync.io/tx/'
+          }${r!.tx}`
+        )}\n`
+      )
+    })
 }
 
 run()

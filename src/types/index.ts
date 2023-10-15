@@ -1,10 +1,22 @@
-import type { Contract } from 'ethers'
+import type { Contract, providers } from 'ethers'
 
-export type Hex = `0x${string}`
+export type TokenSymbol = 'ETH' | 'USDC' | 'USDT'
+
+export type Token = {
+  [key in TokenSymbol]: string
+}
+
+export interface SwapConfig {
+  from: TokenSymbol
+  to: TokenSymbol
+  minAmount: number
+  maxAmount: number
+  slippage: number
+}
 
 export interface WalletConfig {
-  privateKey: Hex
-  address: Hex
+  privateKey: string
+  address: string
   label?: string
 }
 
@@ -12,6 +24,7 @@ export interface Calls {
   contract: Contract
   functionName: string
   args: any[]
+  options?: providers.TransactionRequest
 }
 
 export interface Currency {

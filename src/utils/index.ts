@@ -1,10 +1,11 @@
 import 'dotenv/config'
 import { utils } from 'ethers'
-import { Provider } from 'zksync-web3'
+import { Contract, Provider } from 'zksync-web3'
 import c from 'picocolors'
-import { resolvedWallets } from '../config'
+import { resolvedWallets } from '../configs/wallets'
 import { getETHPrice } from '../api'
-import type { Wallet } from 'ethers'
+import type { BigNumber } from 'ethers'
+import type { Wallet } from 'zksync-web3'
 import type { Calls } from '../types'
 
 export function getProvider() {
@@ -15,12 +16,38 @@ export function getProvider() {
   )
 }
 
+export function getTokenDecimals(contractAddress: string): Promise<number> {
+  const provider = getProvider()
+  const contract = new Contract(
+    contractAddress,
+    ['function decimals() view returns (uint8)'],
+    provider
+  )
+  return contract.decimals()
+}
+
+export async function approveToken(
+  signer: Wallet,
+  tokenAddress: string,
+  spender: string,
+  amount: BigNumber
+) {
+  const contract = new Contract(
+    tokenAddress,
+    ['function approve(address spender, uint256 amount)'],
+    signer
+  )
+  const tx = await contract.approve(spender, amount)
+  return tx.wait()
+}
+
 export async function estimateGasFee(signer: Wallet, calls: Calls) {
-  const { contract, functionName, args } = calls
+  const { contract, functionName, args, options } = calls
   const [gas, gasPrice, ethPrice] = await Promise.all([
     signer.estimateGas({
       to: contract.address,
       data: contract.interface.encodeFunctionData(functionName, args),
+      ...options,
     }),
     signer.getGasPrice(),
     getETHPrice(),

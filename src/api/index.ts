@@ -1,7 +1,7 @@
 import axios from 'axios'
 import base64 from 'crypto-js/enc-base64'
 import hmacSHA256 from 'crypto-js/hmac-sha256'
-import { apikey, passPhrase, secretkey } from '../funding/config'
+import { apikey, passPhrase, secretkey } from '../configs/funding'
 import type {
   Balance,
   Currency,

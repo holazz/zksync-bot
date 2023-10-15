@@ -23,5 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-src/config.ts
-src/funding/config.ts
+src/configs/funding.ts
+src/configs/wallets.ts
