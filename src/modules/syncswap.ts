@@ -1,7 +1,12 @@
 import 'dotenv/config'
 import { BigNumber, constants, utils } from 'ethers'
 import { Contract } from 'zksync-web3'
-import { approveToken, estimateGasFee, sendTransaction } from '../utils'
+import {
+  approveToken,
+  estimateGasFee,
+  getTokenDecimals,
+  sendTransaction,
+} from '../utils'
 import logger from '../utils/logger'
 import { tokens } from '../constants'
 import { swapConfig } from '../configs/modules'
@@ -90,17 +95,16 @@ async function getCalls(
     amountOut.mul(utils.parseUnits(String(swapConfig.slippage), 4)).div(10 ** 6)
   )
 
+  const tokenInDecimals = await getTokenDecimals(tokenIn)
+  const tokenOutDecimals = await getTokenDecimals(tokens[swapConfig.to])
+
   logger?.info(
     signer.address,
-    `${
-      swapConfig.from === 'ETH'
-        ? utils.formatEther(amountIn)
-        : amountIn.toString()
-    } ${swapConfig.from} 兑换为 ${
-      swapConfig.to === 'ETH'
-        ? utils.formatEther(minAmountOut)
-        : minAmountOut.toString()
-    } ${swapConfig.to}`
+    `${utils.formatUnits(amountIn, tokenInDecimals).toString()} ${
+      swapConfig.from
+    } 兑换为 ${utils.formatUnits(minAmountOut, tokenOutDecimals).toString()} ${
+      swapConfig.to
+    }`
   )
 
   return {
