@@ -3,7 +3,7 @@ import { utils } from 'ethers'
 import { Contract, Provider } from 'zksync-web3'
 import c from 'picocolors'
 import { resolvedWallets } from '../configs/wallets'
-import { getETHPrice } from '../api'
+import { getTokenPrice } from '../api'
 import type { BigNumber } from 'ethers'
 import type { Wallet } from 'zksync-web3'
 import type { Calls } from '../types'
@@ -50,7 +50,7 @@ export async function estimateGasFee(signer: Wallet, calls: Calls) {
       ...options,
     }),
     signer.getGasPrice(),
-    getETHPrice(),
+    getTokenPrice('ETH'),
   ])
   return Number(
     (Number(gas) * Number(utils.formatEther(gasPrice)) * ethPrice).toFixed(2)
@@ -64,8 +64,8 @@ export async function sendTransaction(signer: Wallet, calls: Calls) {
   return { address: signer.address, nonce, tx: hash }
 }
 
-export function ethToUsd(eth: number | string, ethPrice: number) {
-  return Number((Number(eth) * ethPrice).toFixed(2))
+export function tokenToUSD(amount: number | string, tokenPrice: number) {
+  return Number((Number(amount) * tokenPrice).toFixed(2))
 }
 
 export function sleep(ms: number) {

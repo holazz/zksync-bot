@@ -1,13 +1,16 @@
 import 'dotenv/config'
 import c from 'picocolors'
 import prompts from 'prompts'
-import { resolvedWallets } from '../config'
-import { ethToUsd, generateWalletTitle } from '../utils'
-import { getBalances, getCurrencies, getETHPrice, withdraw } from '../api'
+import { resolvedWallets } from '../configs/wallets'
+import { generateWalletTitle, tokenToUSD } from '../utils'
+import { getBalances, getCurrencies, getTokenPrice, withdraw } from '../api'
+import type { TokenSymbol } from '../types'
 
 async function getConfig() {
   const currencies = await getCurrencies(process.env.WITHDRAW_TOKEN, 'withdraw')
-  const ethPrice = await getETHPrice()
+  const tokenPrice = await getTokenPrice(
+    process.env.WITHDRAW_TOKEN as TokenSymbol
+  )
 
   const {
     value: { chain, fee },
@@ -18,7 +21,7 @@ async function getConfig() {
     choices: currencies.map((currency) => ({
       title: `${currency.chain} ${c.dim(
         `(手续费: ${currency.minFee} ${process.env.WITHDRAW_TOKEN} ${c.green(
-          `≈ $${ethToUsd(currency.minFee, ethPrice)}`
+          `≈ $${tokenToUSD(currency.minFee, tokenPrice)}`
         )})`
       )}`,
       value: {
@@ -62,22 +65,24 @@ async function getConfig() {
       return true
     },
   })
-  return { chain, fee, address, amount }
+  return { chain, fee, address, amount, tokenPrice }
 }
 
-async function beforeSubmitTransaction() {
+async function beforeSubmitTransaction(amount: string, tokenPrice: number) {
   const { value } = await prompts({
     type: 'confirm',
     name: 'value',
-    message: '确认提币?',
+    message: `确认提币 ${c.green(amount)} ${process.env.WITHDRAW_TOKEN} ${c.dim(
+      `(${c.green(`≈ $${tokenToUSD(amount, tokenPrice)}`)})`
+    )} ?`,
     initial: true,
   })
   return value
 }
 
 async function run() {
-  const { chain, fee, address, amount } = await getConfig()
-  const isSubmit = await beforeSubmitTransaction()
+  const { chain, fee, address, amount, tokenPrice } = await getConfig()
+  const isSubmit = await beforeSubmitTransaction(amount, tokenPrice)
 
   if (!isSubmit) return
 

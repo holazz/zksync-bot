@@ -5,6 +5,7 @@ import { apikey, passPhrase, secretkey } from '../configs/funding'
 import type {
   Balance,
   Currency,
+  TokenSymbol,
   TransferFundParams,
   WithdrawParams,
 } from '../types'
@@ -18,10 +19,10 @@ import type {
 //   return Number(res.data.price)
 // }
 
-export async function getETHPrice(): Promise<number> {
+export async function getTokenPrice(symbol: TokenSymbol): Promise<number> {
   const res = await axios.get('https://min-api.cryptocompare.com/data/price', {
     params: {
-      fsym: 'ETH',
+      fsym: symbol,
       tsyms: 'USD',
     },
   })
