@@ -11,7 +11,7 @@ function getCalls() {
       process.env.NETWORK === 'mainnet'
         ? '0x996A719fbc67f35a4344f73890C1172eb194A88c'
         : '0x8f38FfE39EBC1fCEd6bF29373E0fE56Dc88B4348',
-      ABI
+      ABI,
     ),
     functionName: 'setApprovalForAll',
     args: [constants.AddressZero, true],

@@ -15,8 +15,8 @@ async function getConfig() {
   if (project) {
     console.log(
       `${c.green('✔')} ${c.bold('请选择交互的项目')} ${c.dim('›')} ${c.bold(
-        modules.find((m) => m.value === input[0])?.title
-      )}`
+        modules.find((m) => m.value === input[0])?.title,
+      )}`,
     )
   } else {
     const { project: p } = await prompts({
@@ -28,15 +28,17 @@ async function getConfig() {
     project = p
   }
 
-  let wallets = resolvedWallets.filter((w) =>
-    input[1]?.split(',').includes(w.address)
+  let wallets = resolvedWallets.filter(
+    (w) => input[1]?.split(',').includes(w.address),
   )
 
   if (wallets.length) {
     console.log(
-      `${c.green('✔')} ${c.bold('请选择交互交互的钱包')} ${c.dim('›')} ${c.bold(
-        wallets.map((w) => generateWalletTitle(w.address)).join(', ')
-      )}`
+      `${c.green('✔')} ${c.bold('请选择交互交互的钱包')} ${c.dim(
+        '›',
+      )} ${c.bold(
+        wallets.map((w) => generateWalletTitle(w.address)).join(', '),
+      )}`,
     )
   } else {
     const { wallets: w } = await prompts({
@@ -58,7 +60,7 @@ async function getConfig() {
 async function beforeSubmitTransaction(
   provider: Provider,
   wallet: WalletConfig,
-  module: (typeof modules)[0]
+  module: (typeof modules)[0],
 ) {
   const signer = new Wallet(wallet.privateKey, provider)
   const fee = await module.estimateGasFee(signer)
@@ -97,14 +99,14 @@ async function run() {
     .forEach((r) => {
       console.log(
         `\n${c.bold(generateWalletTitle(r!.address))}\n${c.bold(
-          'Nonce: '
+          'Nonce: ',
         )}${c.yellow(r!.nonce.toString())}\n${c.bold('Transaction: ')}${c.green(
           `${
             process.env.NETWORK === 'mainnet'
               ? 'https://explorer.zksync.io/tx/'
               : 'https://goerli.explorer.zksync.io/tx/'
-          }${r!.tx}`
-        )}\n`
+          }${r!.tx}`,
+        )}\n`,
       )
     })
 }

@@ -9,7 +9,7 @@ import type { TokenSymbol } from '../types'
 async function getConfig() {
   const currencies = await getCurrencies(process.env.WITHDRAW_TOKEN, 'withdraw')
   const tokenPrice = await getTokenPrice(
-    process.env.WITHDRAW_TOKEN as TokenSymbol
+    process.env.WITHDRAW_TOKEN as TokenSymbol,
   )
 
   const {
@@ -21,8 +21,8 @@ async function getConfig() {
     choices: currencies.map((currency) => ({
       title: `${currency.chain} ${c.dim(
         `(手续费: ${currency.minFee} ${process.env.WITHDRAW_TOKEN} ${c.green(
-          `≈ $${tokenToUSD(currency.minFee, tokenPrice)}`
-        )})`
+          `≈ $${tokenToUSD(currency.minFee, tokenPrice)}`,
+        )})`,
       )}`,
       value: {
         chain: currency.chain,
@@ -50,7 +50,7 @@ async function getConfig() {
     type: 'text',
     name: 'value',
     message: `请输入提币数量 (可用: ${c.green(
-      `${availBal} ${process.env.WITHDRAW_TOKEN}`
+      `${availBal} ${process.env.WITHDRAW_TOKEN}`,
     )})`,
     validate: (value) => {
       if (isNaN(value)) {
@@ -73,7 +73,7 @@ async function beforeSubmitTransaction(amount: string, tokenPrice: number) {
     type: 'confirm',
     name: 'value',
     message: `确认提币 ${c.green(amount)} ${process.env.WITHDRAW_TOKEN} ${c.dim(
-      `(${c.green(`≈ $${tokenToUSD(amount, tokenPrice)}`)})`
+      `(${c.green(`≈ $${tokenToUSD(amount, tokenPrice)}`)})`,
     )} ?`,
     initial: true,
   })
@@ -96,7 +96,7 @@ async function run() {
   })
 
   console.log(
-    `\n${c.green('✔')} ${c.bold('提币成功!')} 提币申请ID: ${res[0].wdId}`
+    `\n${c.green('✔')} ${c.bold('提币成功!')} 提币申请ID: ${res[0].wdId}`,
   )
 }
 

@@ -7,13 +7,13 @@ import type { Wallet } from 'zksync-web3'
 function generateCollectionData() {
   const title = Array.from(
     { length: Math.floor(Math.random() * 11) + 5 },
-    (_, i) => String.fromCharCode(97 + i)
+    (_, i) => String.fromCharCode(97 + i),
   )
     .sort(() => Math.random() - 0.5)
     .join('')
   const symbol = Array.from(
     { length: Math.floor(Math.random() * 4) + 3 },
-    (_, i) => String.fromCharCode(65 + i)
+    (_, i) => String.fromCharCode(65 + i),
   )
     .sort(() => Math.random() - 0.5)
     .join('')

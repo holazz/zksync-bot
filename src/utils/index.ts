@@ -4,38 +4,53 @@ import { Contract, Provider } from 'zksync-web3'
 import c from 'picocolors'
 import { resolvedWallets } from '../configs/wallets'
 import { getTokenPrice } from '../api'
+import { chains, tokens } from '../constants'
 import type { BigNumber } from 'ethers'
 import type { Wallet } from 'zksync-web3'
-import type { Calls } from '../types'
+import type { Calls, TokenSymbol } from '../types'
 
-export function getProvider() {
-  return new Provider(
-    process.env.NETWORK === 'mainnet'
-      ? 'https://mainnet.era.zksync.io'
-      : 'https://testnet.era.zksync.dev'
-  )
+export function getProvider(rpcUrl = chains.ZKSYNC_ERA) {
+  return new Provider(rpcUrl)
 }
 
-export function getTokenDecimals(contractAddress: string): Promise<number> {
-  const provider = getProvider()
+export function getTokenDecimals(
+  signerOrProvider: Provider | Wallet,
+  tokenAddress: string,
+): Promise<number> {
   const contract = new Contract(
-    contractAddress,
+    tokenAddress,
     ['function decimals() view returns (uint8)'],
-    provider
+    signerOrProvider,
   )
   return contract.decimals()
+}
+
+export function getTokenBalance(
+  provider: Provider,
+  tokenAddress: string,
+  address: string,
+): Promise<BigNumber> {
+  if (Object.values(tokens.ETH).includes(tokenAddress)) {
+    return provider.getBalance(address)
+  }
+  const contract = new Contract(
+    tokenAddress,
+    ['function balanceOf(address owner) view returns (uint256)'],
+    provider,
+  )
+  return contract.balanceOf(address)
 }
 
 export async function approveToken(
   signer: Wallet,
   tokenAddress: string,
   spender: string,
-  amount: BigNumber
+  amount: BigNumber,
 ) {
   const contract = new Contract(
     tokenAddress,
     ['function approve(address spender, uint256 amount)'],
-    signer
+    signer,
   )
   const tx = await contract.approve(spender, amount)
   return tx.wait()
@@ -53,8 +68,36 @@ export async function estimateGasFee(signer: Wallet, calls: Calls) {
     getTokenPrice('ETH'),
   ])
   return Number(
-    (Number(gas) * Number(utils.formatEther(gasPrice)) * ethPrice).toFixed(2)
+    (Number(gas) * Number(utils.formatEther(gasPrice)) * ethPrice).toFixed(2),
   )
+}
+
+export async function estimateTransferGasFee(
+  provider: Provider,
+  tokenAddress: string,
+) {
+  const contract = new Contract(
+    tokenAddress,
+    ['function transfer(address to, uint256 amount)'],
+    provider,
+  )
+
+  const [gas, gasPrice, ethPrice] = await Promise.all([
+    contract.estimateGas.transfer(
+      '0xD5aF2958d8A6D6d8af8F6aafC00E4631AaC63bbC',
+      0,
+      {
+        from: '0xD5aF2958d8A6D6d8af8F6aafC00E4631AaC63bbC',
+      },
+    ),
+    provider.getGasPrice(),
+    getTokenPrice('ETH'),
+  ])
+  const gasFeeETH = Number(gas) * Number(utils.formatEther(gasPrice))
+  return {
+    gasFeeETH,
+    gasFeeUSD: Number((gasFeeETH * ethPrice).toFixed(2)),
+  }
 }
 
 export async function sendTransaction(signer: Wallet, calls: Calls) {
@@ -78,7 +121,7 @@ export function shortenAddress(address: string) {
 
 export function generateWalletTitle(address: string) {
   const wallet = resolvedWallets.find(
-    (w) => w.address.toLowerCase() === address.toLowerCase()
+    (w) => w.address.toLowerCase() === address.toLowerCase(),
   )!
   return `${wallet.label} ${c.dim(`(${shortenAddress(wallet.address)})`)}`
 }
@@ -86,7 +129,7 @@ export function generateWalletTitle(address: string) {
 export function retry<T>(
   fn: (...args: any[]) => Promise<T>,
   times = 0,
-  delay = 0
+  delay = 0,
 ) {
   return (...args: any[]): Promise<T> =>
     new Promise((resolve, reject) => {

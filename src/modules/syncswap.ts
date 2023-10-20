@@ -30,27 +30,27 @@ async function getConfig(signer: Wallet) {
   const classicPoolFactory = new Contract(
     CLASSIC_POOL_CONTRACT_ADDRESS,
     classicPoolFactoryABI,
-    signer
+    signer,
   )
   const poolAddress: string = await classicPoolFactory.getPool(
-    tokens[swapConfig.from],
-    tokens[swapConfig.to]
+    tokens[swapConfig.from].ZKSYNC_ERA,
+    tokens[swapConfig.to].ZKSYNC_ERA,
   )
 
   let amountIn = utils.parseEther(
     (
       Math.random() * (swapConfig.maxAmount - swapConfig.minAmount) +
       swapConfig.minAmount
-    ).toFixed(5)
+    ).toFixed(5),
   )
 
-  if (tokens[swapConfig.from] !== tokens.ETH) {
-    amountIn = await signer.getBalance(tokens[swapConfig.from])
+  if (tokens[swapConfig.from].ZKSYNC_ERA !== tokens.ETH.ZKSYNC_ERA) {
+    amountIn = await signer.getBalance(tokens[swapConfig.from].ZKSYNC_ERA)
   }
 
   return {
     poolAddress,
-    tokenIn: tokens[swapConfig.from],
+    tokenIn: tokens[swapConfig.from].ZKSYNC_ERA,
     amountIn,
   }
 }
@@ -58,14 +58,14 @@ async function getConfig(signer: Wallet) {
 async function getCalls(
   signer: Wallet,
   config: Awaited<ReturnType<typeof getConfig>>,
-  logger?: Logger
+  logger?: Logger,
 ) {
   const { poolAddress, tokenIn, amountIn } = config
   const pool = new Contract(poolAddress, classicPoolABI, signer)
   const withdrawMode = 1
   const swapData = utils.defaultAbiCoder.encode(
     ['address', 'address', 'uint8'],
-    [tokenIn, signer.address, withdrawMode]
+    [tokenIn, signer.address, withdrawMode],
   )
 
   const steps = [
@@ -80,7 +80,8 @@ async function getCalls(
   const paths = [
     {
       steps,
-      tokenIn: tokenIn === tokens.ETH ? constants.AddressZero : tokenIn,
+      tokenIn:
+        tokenIn === tokens.ETH.ZKSYNC_ERA ? constants.AddressZero : tokenIn,
       amountIn,
     },
   ]
@@ -88,15 +89,20 @@ async function getCalls(
   const amountOut: BigNumber = await pool.getAmountOut(
     tokenIn,
     amountIn,
-    signer.address
+    signer.address,
   )
 
   const minAmountOut = amountOut.sub(
-    amountOut.mul(utils.parseUnits(String(swapConfig.slippage), 4)).div(10 ** 6)
+    amountOut
+      .mul(utils.parseUnits(String(swapConfig.slippage), 4))
+      .div(10 ** 6),
   )
 
-  const tokenInDecimals = await getTokenDecimals(tokenIn)
-  const tokenOutDecimals = await getTokenDecimals(tokens[swapConfig.to])
+  const tokenInDecimals = await getTokenDecimals(signer, tokenIn)
+  const tokenOutDecimals = await getTokenDecimals(
+    signer,
+    tokens[swapConfig.to].ZKSYNC_ERA,
+  )
 
   logger?.info(
     signer.address,
@@ -104,7 +110,7 @@ async function getCalls(
       swapConfig.from
     } 兑换为 ${utils.formatUnits(minAmountOut, tokenOutDecimals).toString()} ${
       swapConfig.to
-    }`
+    }`,
   )
 
   return {
@@ -116,7 +122,7 @@ async function getCalls(
       BigNumber.from(Math.floor(Date.now() / 1000)).add(1800),
     ],
     options:
-      tokenIn === tokens.ETH
+      tokenIn === tokens.ETH.ZKSYNC_ERA
         ? {
             value: amountIn,
           }
@@ -143,7 +149,7 @@ async function _sendTransaction(signer: Wallet) {
       tokenIn,
       amountIn,
     },
-    logger
+    logger,
   )
 
   if (amountIn.eq(0)) {
@@ -151,7 +157,7 @@ async function _sendTransaction(signer: Wallet) {
     return
   }
 
-  if (tokenIn !== tokens.ETH) {
+  if (tokenIn !== tokens.ETH.ZKSYNC_ERA) {
     await approveToken(signer, tokenIn, ROUTER_CONTRACT_ADDRESS, amountIn)
   }
   return sendTransaction(signer, calls)

@@ -31,7 +31,7 @@ export async function getTokenPrice(symbol: TokenSymbol): Promise<number> {
 
 export async function getCurrencies(
   ccy = 'ETH',
-  op: 'withdraw' | 'deposit'
+  op: 'withdraw' | 'deposit',
 ): Promise<Currency[]> {
   const path = `/api/v5/asset/currencies?ccy=${ccy}`
   const timestamp = new Date().toISOString()
@@ -45,11 +45,29 @@ export async function getCurrencies(
     },
   })
 
+  const withdrawBlacklist = [
+    'ETHK-OKTC',
+    'ETH-Starknet',
+    'USDC-OKTC',
+    'USDC-TRC20',
+    'USDC-Solana',
+    'USDT-OKTC',
+    'USDT-TRC20',
+    'USDT-Solana',
+  ]
+  const depositBlacklist = [
+    ...withdrawBlacklist,
+    'ETH-zkSync Lite',
+    'USDC-Polygon (Bridged)',
+    'USDC-Avalanche C-Chain',
+    'USDT-Polygon',
+    'USDT-Avalanche C-Chain',
+  ]
+
   return res.data.data.filter((currency: Currency) => {
-    return (
-      (op === 'withdraw' ? currency.canWd : currency.canDep) &&
-      !['ETHK-OKTC', 'ETH-Starknet'].includes(currency.chain)
-    )
+    return op === 'withdraw'
+      ? currency.canWd && !withdrawBlacklist.includes(currency.chain)
+      : currency.canDep && !depositBlacklist.includes(currency.chain)
   })
 }
 
@@ -70,7 +88,7 @@ export async function getBalances(ccy = 'ETH'): Promise<Balance[]> {
 
 export async function getSubAccountBalances(
   subAcct: string,
-  ccy = 'ETH'
+  ccy = 'ETH',
 ): Promise<Balance[]> {
   const path = `/api/v5/asset/subaccount/balances?subAcct=${subAcct}&ccy=${ccy}`
   const timestamp = new Date().toISOString()
@@ -90,7 +108,7 @@ export async function withdraw(data: WithdrawParams) {
   const path = `/api/v5/asset/withdrawal`
   const timestamp = new Date().toISOString()
   const sign = base64.stringify(
-    hmacSHA256(`${timestamp}POST${path}${JSON.stringify(data)}`, secretkey)
+    hmacSHA256(`${timestamp}POST${path}${JSON.stringify(data)}`, secretkey),
   )
 
   const res = await axios.post(`https://www.okx.com${path}`, data, {
@@ -108,7 +126,7 @@ export async function transferFund(data: TransferFundParams) {
   const path = `/api/v5/asset/transfer`
   const timestamp = new Date().toISOString()
   const sign = base64.stringify(
-    hmacSHA256(`${timestamp}POST${path}${JSON.stringify(data)}`, secretkey)
+    hmacSHA256(`${timestamp}POST${path}${JSON.stringify(data)}`, secretkey),
   )
 
   const res = await axios.post(`https://www.okx.com${path}`, data, {

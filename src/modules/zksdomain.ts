@@ -18,7 +18,7 @@ async function generageRandomName(contract: Contract) {
 async function getCalls(signer: Wallet) {
   const contract = new Contract(
     '0xcbe2093030f485adaaf5b61deb4d9ca8adeae509',
-    ABI
+    ABI,
   )
   const name = await generageRandomName(contract.connect(signer))
   return {
