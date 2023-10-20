@@ -7,7 +7,7 @@ import { getTokenPrice } from '../api'
 import { chains, tokens } from '../constants'
 import type { BigNumber } from 'ethers'
 import type { Wallet } from 'zksync-web3'
-import type { Calls, TokenSymbol } from '../types'
+import type { Calls } from '../types'
 
 export function getProvider(rpcUrl = chains.ZKSYNC_ERA) {
   return new Provider(rpcUrl)

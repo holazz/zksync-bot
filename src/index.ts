@@ -10,26 +10,8 @@ import type { WalletConfig } from './types'
 async function getConfig() {
   const input = process.argv.slice(2)
 
-  let project = modules.find((m) => m.value === input[0])?.value
-
-  if (project) {
-    console.log(
-      `${c.green('✔')} ${c.bold('请选择交互的项目')} ${c.dim('›')} ${c.bold(
-        modules.find((m) => m.value === input[0])?.title,
-      )}`,
-    )
-  } else {
-    const { project: p } = await prompts({
-      type: 'select',
-      name: 'project',
-      message: '请选择交互的项目',
-      choices: modules,
-    })
-    project = p
-  }
-
   let wallets = resolvedWallets.filter(
-    (w) => input[1]?.split(',').includes(w.address),
+    (w) => input[0]?.split(',').includes(w.address),
   )
 
   if (wallets.length) {
@@ -54,7 +36,25 @@ async function getConfig() {
     wallets = w
   }
 
-  return { project, wallets }
+  let project = modules.find((m) => m.value === input[1])?.value
+
+  if (project) {
+    console.log(
+      `${c.green('✔')} ${c.bold('请选择交互的项目')} ${c.dim('›')} ${c.bold(
+        modules.find((m) => m.value === input[1])?.title,
+      )}`,
+    )
+  } else {
+    const { project: p } = await prompts({
+      type: 'select',
+      name: 'project',
+      message: '请选择交互的项目',
+      choices: modules,
+    })
+    project = p
+  }
+
+  return { wallets, project }
 }
 
 async function beforeSubmitTransaction(
@@ -78,7 +78,7 @@ async function beforeSubmitTransaction(
 }
 
 async function run() {
-  const { project, wallets } = await getConfig()
+  const { wallets, project } = await getConfig()
   const module = modules.find((m) => m.value === project)!
 
   const provider = getProvider()

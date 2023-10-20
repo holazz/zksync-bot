@@ -2,10 +2,6 @@ import type { Contract, providers } from 'ethers'
 
 export type TokenSymbol = 'ETH' | 'USDC' | 'USDT'
 
-export type Token = {
-  [key in TokenSymbol]: string
-}
-
 export interface SwapConfig {
   from: TokenSymbol
   to: TokenSymbol
