@@ -13,6 +13,10 @@ export function getProvider(rpcUrl = chains.ZKSYNC_ERA) {
   return new Provider(rpcUrl)
 }
 
+export function isNativeToken(tokenAddress: string) {
+  return Object.values(tokens.ETH).includes(tokenAddress)
+}
+
 export function getTokenDecimals(
   signerOrProvider: Provider | Wallet,
   tokenAddress: string,
@@ -30,7 +34,7 @@ export function getTokenBalance(
   tokenAddress: string,
   address: string,
 ): Promise<BigNumber> {
-  if (Object.values(tokens.ETH).includes(tokenAddress)) {
+  if (isNativeToken(tokenAddress)) {
     return provider.getBalance(address)
   }
   const contract = new Contract(
@@ -82,14 +86,22 @@ export async function estimateTransferGasFee(
     provider,
   )
 
-  const [gas, gasPrice, ethPrice] = await Promise.all([
-    contract.estimateGas.transfer(
-      '0xD5aF2958d8A6D6d8af8F6aafC00E4631AaC63bbC',
-      0,
-      {
+  const transferFunction = isNativeToken(tokenAddress)
+    ? provider.estimateGas({
         from: '0xD5aF2958d8A6D6d8af8F6aafC00E4631AaC63bbC',
-      },
-    ),
+        to: '0xD5aF2958d8A6D6d8af8F6aafC00E4631AaC63bbC',
+        value: 0,
+      })
+    : contract.estimateGas.transfer(
+        '0xD5aF2958d8A6D6d8af8F6aafC00E4631AaC63bbC',
+        0,
+        {
+          from: '0xD5aF2958d8A6D6d8af8F6aafC00E4631AaC63bbC',
+        },
+      )
+
+  const [gas, gasPrice, ethPrice] = await Promise.all([
+    transferFunction,
     provider.getGasPrice(),
     getTokenPrice('ETH'),
   ])
