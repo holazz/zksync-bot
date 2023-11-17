@@ -3,8 +3,9 @@ import { utils } from 'ethers'
 import { Contract, Provider } from 'zksync-web3'
 import c from 'picocolors'
 import { resolvedWallets } from '../configs/wallets'
-import { getTokenPrice } from '../api'
+import { getLatestTransaction, getTokenPrice } from '../api'
 import { chains, tokens } from '../constants'
+import dayjs from './dayjs'
 import type { BigNumber } from 'ethers'
 import type { Wallet } from 'zksync-web3'
 import type { Calls } from '../types'
@@ -117,6 +118,14 @@ export async function sendTransaction(signer: Wallet, calls: Calls) {
   const { contract, functionName, args } = calls
   const { hash } = await contract.connect(signer)[functionName](...args)
   return { address: signer.address, nonce, tx: hash }
+}
+
+export async function getLatestTransactionAge(address: string) {
+  const res = await getLatestTransaction(address)
+  const { receivedAt } = res[0] || { receivedAt: 0 }
+  const age = dayjs(receivedAt).fromNow()
+  const color = dayjs().diff(receivedAt, 'day') >= 7 ? c.red : c.green
+  return c.bold(color(age))
 }
 
 export function tokenToUSD(amount: number | string, tokenPrice: number) {

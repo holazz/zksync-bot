@@ -10,6 +10,11 @@ import type {
   WithdrawParams,
 } from '../types'
 
+const ZKSYNC_ERA_API_URL =
+  process.env.NETWORK === 'mainnet'
+    ? 'https://block-explorer-api.mainnet.zksync.io'
+    : 'https://block-explorer-api.testnets.zksync.dev'
+
 // export async function getETHPrice(): Promise<number> {
 //   const res = await axios.get('https://api.binance.com/api/v3/ticker/price', {
 //     params: {
@@ -27,6 +32,17 @@ export async function getTokenPrice(symbol: TokenSymbol): Promise<number> {
     },
   })
   return res.data.USD
+}
+
+export async function getLatestTransaction(address: string) {
+  const res = await axios.get(`${ZKSYNC_ERA_API_URL}/transactions`, {
+    params: {
+      address,
+      pageSize: 1,
+      page: 1,
+    },
+  })
+  return res.data.items
 }
 
 export async function getCurrencies(

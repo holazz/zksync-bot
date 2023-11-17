@@ -1,7 +1,11 @@
 import c from 'picocolors'
 import prompts from 'prompts'
 import { Wallet } from 'zksync-web3'
-import { generateWalletTitle, getProvider } from './utils'
+import {
+  generateWalletTitle,
+  getLatestTransactionAge,
+  getProvider,
+} from './utils'
 import { resolvedWallets } from './configs/wallets'
 import modules from './modules'
 import type { Provider } from 'zksync-web3'
@@ -23,14 +27,20 @@ async function getConfig() {
       )}`,
     )
   } else {
+    const choices = await Promise.all(
+      resolvedWallets.map(async (wallet) => {
+        const age = await getLatestTransactionAge(wallet.address)
+        return {
+          title: `${generateWalletTitle(wallet.address)} ${age}`,
+          value: wallet,
+        }
+      }),
+    )
     const { wallets: w } = await prompts({
       type: 'multiselect',
       name: 'wallets',
       message: '请选择交互的钱包',
-      choices: resolvedWallets.map((wallet) => ({
-        title: generateWalletTitle(wallet.address),
-        value: wallet,
-      })),
+      choices,
       instructions: false,
     })
     wallets = w
