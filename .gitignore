@@ -25,3 +25,4 @@ dist-ssr
 
 src/configs/*
 !src/configs/*.example.ts
+records.csv

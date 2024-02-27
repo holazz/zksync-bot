@@ -14,6 +14,7 @@
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
     "ethers": "^5.7.2",
+    "json-2-csv": "^5.4.0",
     "p-limit": "^4.0.0",
     "picocolors": "^1.0.0",
     "prompts": "^2.4.2",

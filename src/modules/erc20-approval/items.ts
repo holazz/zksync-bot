@@ -84,4 +84,119 @@ export default [
     value: 'zerc2',
     contractAddress: '0xa6f65bbBB723155074A1c83f25B07Ec1F866C706',
   },
+  {
+    title: 'YOY',
+    value: 'yoy',
+    contractAddress: '0x4176FA370c9E5D70F8330bC9Fd363fce3AA6feC4',
+  },
+  {
+    title: 'MaverickToken',
+    value: 'mav',
+    contractAddress: '0x787c09494Ec8Bcb24DcAf8659E7d5D69979eE508',
+  },
+  {
+    title: 'Kudi',
+    value: 'kudi',
+    contractAddress: '0xca1721711D7035116C336735cC38d6b62F3cb180',
+  },
+  {
+    title: 'ZGEM',
+    value: 'zgem',
+    contractAddress: '0x2b64237277C605d07f17B96f9627712340C32981',
+  },
+  {
+    title: 'L2T',
+    value: 'l2t',
+    contractAddress: '0xCfE13A8CD5532712e1D0EdB27cC6f4CDAb47910a',
+  },
+  {
+    title: 'ZYP',
+    value: 'zyp',
+    contractAddress: '0xf8D0bf8B56AA5551c78d1DbD5c50c723143E0b1e',
+  },
+  {
+    title: 'BGN',
+    value: 'ben',
+    contractAddress: '0xaD8a98238fA8123115176BfaE862ef9442400f79',
+  },
+  {
+    title: 'DC',
+    value: 'dc',
+    contractAddress: '0xc1B6d49e52547968529Ded6192E25Af69bD4C2e1',
+  },
+  {
+    title: 'eETH',
+    value: 'eeth',
+    contractAddress: '0x22D8b71599e14F20a49a397b88c1C878c86F5579',
+  },
+  {
+    title: 'GBY',
+    value: 'gby',
+    contractAddress: '0xF63C8c61bDBda676DD0636d9Bc23533113f9A2E3',
+  },
+  {
+    title: 'GWT',
+    value: 'gwt',
+    contractAddress: '0x4f0B3Cb6283e3f796848BB64b6b62634395E78B7',
+  },
+  {
+    title: 'MERK',
+    value: 'merk',
+    contractAddress: '0x54De43B6bA21A5553697a2b78338e046dD7E0278',
+  },
+  {
+    title: 'PLS',
+    value: 'pls',
+    contractAddress: '0xaa5FFF4346220447E0868FEf43993bF2f51F822c',
+  },
+  {
+    title: 'poop',
+    value: 'poop',
+    contractAddress: '0x48C900E16dE663B56F1FF8d76557607811b927CD',
+  },
+  {
+    title: 'Sou',
+    value: 'sou',
+    contractAddress: '0x0740Acc20F734c4E004E77d356C805C0583354b5',
+  },
+  {
+    title: 'TST',
+    value: 'tst',
+    contractAddress: '0x559be7Ce54E77514DfaCB1A30eaC96Cbc6fBFF88',
+  },
+  {
+    title: 'zkpepe',
+    value: 'zkpepe',
+    contractAddress: '0x76b3dfC86ACB8b018aa7909603173Aa0719dcC68',
+  },
+  {
+    title: 'MUTE',
+    value: 'mute',
+    contractAddress: '0x0e97C7a0F8B2C9885C8ac9fC6136e829CbC21d42',
+  },
+  {
+    title: 'HOLD',
+    value: 'hold',
+    contractAddress: '0xed4040fD47629e7c8FBB7DA76bb50B3e7695F0f2',
+  },
+  {
+    title: 'ZF',
+    value: 'zf',
+    contractAddress: '0x31C2c031fDc9d33e974f327Ab0d9883Eae06cA4A',
+  },
+  {
+    title: 'earlyZERO',
+    value: 'earlyzero',
+    contractAddress: '0x9793eac2fECef55248efA039BEC78e82aC01CB2f',
+  },
+  {
+    title: 'fLP',
+    value: 'flp',
+    contractAddress: '0xd2589F416c9412572df8d94FA1D58073C9F8f3Bf',
+  },
+  {
+    title: 'WBTC',
+    value: 'wbtc',
+    contractAddress: '0xBBeB516fb02a01611cBBE0453Fe3c580D7281011',
+  },
 ]

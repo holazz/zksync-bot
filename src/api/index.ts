@@ -73,6 +73,7 @@ export async function getCurrencies(
   ]
   const depositBlacklist = [
     ...withdrawBlacklist,
+    'ETH-Base',
     'ETH-zkSync Lite',
     'USDC-Polygon (Bridged)',
     'USDC-Avalanche C-Chain',
