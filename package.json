@@ -6,6 +6,8 @@
     "dev": "tsx src/index.ts",
     "withdraw": "tsx src/funding/withdraw.ts",
     "deposit": "tsx src/funding/deposit.ts",
+    "transfer": "tsx src/funding/transfer.ts",
+    "reward": "tsx src/commands/reward.ts",
     "lint": "eslint ."
   },
   "dependencies": {

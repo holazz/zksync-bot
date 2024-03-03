@@ -199,4 +199,404 @@ export default [
     value: 'wbtc',
     contractAddress: '0xBBeB516fb02a01611cBBE0453Fe3c580D7281011',
   },
+  {
+    title: 'ZYZ',
+    value: 'zyz',
+    contractAddress: '0xb569398e2c0a5ba2DE4C11370f5E938c544217A0',
+  },
+  {
+    title: 'ZPET',
+    value: 'zpet',
+    contractAddress: '0x0C6eaaAb86e8374A91e3F42c726B6FD1aBaCB54c',
+  },
+  {
+    title: 'zkVirus',
+    value: 'zkVirus',
+    contractAddress: '0xCBC4dbCd8D7252f515c4515bbb7f8bb310c05Bae',
+  },
+  {
+    title: 'ZKPEPE1',
+    value: 'zkpepe1',
+    contractAddress: '0x7D54a311D56957fa3c9a3e397CA9dC6061113ab3',
+  },
+  {
+    title: 'ZKPEPE2',
+    value: 'zkpepe2',
+    contractAddress: '0x5b6C7342b47e3fBE4DdCc1664ccB3e1e631d07A9',
+  },
+  {
+    title: 'ZK',
+    value: 'zk',
+    contractAddress: '0x4C23eDFAE637c6EA3Beb2393f9D3185CA60869FB',
+  },
+  {
+    title: 'ZFG',
+    value: 'zfg',
+    contractAddress: '0xcC06EE68Ee89915e65f67abEB1B4be1476d98DDe',
+  },
+  {
+    title: 'YEAR',
+    value: 'year',
+    contractAddress: '0x6749F336554ac9ed03e3584ee6e5f55C4557b318',
+  },
+  {
+    title: 'WWD',
+    value: 'wwd',
+    contractAddress: '0x21EeE9f9dFA1ACC9B9Fb39a1Cb4a3500645f406D',
+  },
+  {
+    title: 'VR',
+    value: 'vr',
+    contractAddress: '0x59A44586026899731a86465523527DBf5013493f',
+  },
+  {
+    title: 'TRP',
+    value: 'trp',
+    contractAddress: '0x5B7483C1c4e2189E54e1FAae86C4B696dd8a8Af9',
+  },
+  {
+    title: 'TTT',
+    value: 'ttt',
+    contractAddress: '0x81e009a8182c84749B04a12d72DbCED0c06BDbb3',
+  },
+  {
+    title: 'TON1',
+    value: 'ton1',
+    contractAddress: '0x41733650549E3DDc091675513d62C90efe8aabdB',
+  },
+  {
+    title: 'TON2',
+    value: 'ton2',
+    contractAddress: '0xaAeB83988f7a6bf692f417Ad9481ae51D19F4591',
+  },
+  {
+    title: 'TLX',
+    value: 'tlx',
+    contractAddress: '0xe43b5945Ab976c52bBd7BE4477AC61bc8FDdd973',
+  },
+  {
+    title: 'SBT',
+    value: 'sbt',
+    contractAddress: '0x2D691471e6493016a0995822Fb5A017404722Bfb',
+  },
+  {
+    title: 'SPS',
+    value: 'sps',
+    contractAddress: '0x48897eB175d138E1B38F26CBd930722D30d56c8c',
+  },
+  {
+    title: 'SevenX',
+    value: 'sevenX',
+    contractAddress: '0x729E7b3bF5c7D863e3a3De0c50EE2bF8A72Fc60A',
+  },
+  {
+    title: 'MTT',
+    value: 'mtt',
+    contractAddress: '0x97d4Da8cB27Cab9010BA95e6264e6Bc99824720f',
+  },
+  {
+    title: 'MOONS',
+    value: 'moons',
+    contractAddress: '0xe71e0f960c298b8d62f09F6dd9b2f3615642C528',
+  },
+  {
+    title: 'MOON',
+    value: 'moon',
+    contractAddress: '0x5eE46Ba6728A5038231D47C03fE1653f6093416b',
+  },
+  {
+    title: 'MGU',
+    value: 'mgu',
+    contractAddress: '0x7f747E6440C339E4023a5C587fb51b893cc90bbe',
+  },
+  {
+    title: 'MARA',
+    value: 'mara',
+    contractAddress: '0x2dDb4FF16093E4596abc4312f9b88Ab02A8dF8Ed',
+  },
+  {
+    title: 'MAIL3',
+    value: 'mail3',
+    contractAddress: '0xC4C115bDbd7545d2c55dF89d3490D478253F19B7',
+  },
+  {
+    title: 'LTP',
+    value: 'ltp',
+    contractAddress: '0xc94048f33479CA1aE14A31A773582FCECf924a9D',
+  },
+  {
+    title: 'iZi',
+    value: 'izi',
+    contractAddress: '0x16A9494e257703797D747540f01683952547EE5b',
+  },
+  {
+    title: 'HCAT',
+    value: 'hcat',
+    contractAddress: '0xA31d41102fcCbFfF8728542844E874220CdC2eb9',
+  },
+  {
+    title: 'CXCX',
+    value: 'cxcx',
+    contractAddress: '0x1Ee0016F3348418a7B72B6b4ABc991F6203a8dF4',
+  },
+  {
+    title: 'BTCPP',
+    value: 'btcpp',
+    contractAddress: '0xB5E475C467c73CbAdd77e1B76f48bFf2d3E05428',
+  },
+  {
+    title: 'BST1',
+    value: 'bst1',
+    contractAddress: '0xF9432D0FCEe2224011E5B0cb3e0523F94b19a7b7',
+  },
+  {
+    title: 'BLINK',
+    value: 'blink',
+    contractAddress: '0x0CfcF158b98Ec9367A6878E4aAee42e45F1FE9e0',
+  },
+  {
+    title: 'BAYC',
+    value: 'bayc',
+    contractAddress: '0xe915ae301EB6693E7a7A8A5Cf32f959FD6dD4872',
+  },
+  {
+    title: 'ARMY',
+    value: 'army',
+    contractAddress: '0x18786e511B12151447fA29B0b1A4Ac0D16f42F53',
+  },
+  {
+    title: 'AAVE',
+    value: 'aave',
+    contractAddress: '0xb0396059b4EFADD8d4493f159e2Acc933E48eAF2',
+  },
+  {
+    title: 'APT',
+    value: 'apt',
+    contractAddress: '0x3E9F5EDB6C078f0CEB1b77aFa2352430bea6e141',
+  },
+  {
+    title: 'ARB',
+    value: 'arb',
+    contractAddress: '0xC573098FC2ef9B4AeE377C4BEadf3b11F103557E',
+  },
+  {
+    title: 'BABYDOGE',
+    value: 'babydoge',
+    contractAddress: '0xA1d5BF95f31d55df283328014c3ad9AF23FC3888',
+  },
+  {
+    title: 'BGB',
+    value: 'bgb',
+    contractAddress: '0x39e300f919e565a7eeB8C939b6aBFF4315357Bac',
+  },
+  {
+    title: 'BIT1',
+    value: 'bit1',
+    contractAddress: '0x02CF4A0116d48cbb0076671ddC459F8C612bcAc6',
+  },
+  {
+    title: 'BIT2',
+    value: 'bit2',
+    contractAddress: '0xfFA8E47E8b209FD0Ea8a6C4C3319fE86A7698798',
+  },
+  {
+    title: 'BNB',
+    value: 'bnb',
+    contractAddress: '0x1Fb21E1ab73fAa176BE8a0E6c34B2D5b16Db2B88',
+  },
+  {
+    title: 'CHUCKY',
+    value: 'chucky',
+    contractAddress: '0x3C907a6172755493a9ec027Da066BB85c09799FD',
+  },
+  {
+    title: 'CHZ1',
+    value: 'chz1',
+    contractAddress: '0x8dD9F47d5917417525A5d8bfe744E7c66C3C48Ce',
+  },
+  {
+    title: 'CHZ2',
+    value: 'chz2',
+    contractAddress: '0xd4CDb83Bcb77863661EbFB0178AD1bE4Af20b6d8',
+  },
+  {
+    title: 'CHZ3',
+    value: 'chz3',
+    contractAddress: '0xE7713E46cEBB1DcF2f7c9B71516888849699966b',
+  },
+  {
+    title: 'CRV1',
+    value: 'crv1',
+    contractAddress: '0x18fDf21445D93cE1708eA27D93a80bc084D35C21',
+  },
+  {
+    title: 'CRV2',
+    value: 'crv2',
+    contractAddress: '0xE6De2C18408f085ad539b6e2E32cB12Fe3BE55D8',
+  },
+  {
+    title: 'CSPR1',
+    value: 'cspr1',
+    contractAddress: '0x36F5C7d797edA3D4970Fc8E17b09d3Db756Bb4D9',
+  },
+  {
+    title: 'CSPR2',
+    value: 'cspr2',
+    contractAddress: '0x90dE66548de0dffb8975419D9592331616bfF73f',
+  },
+  {
+    title: 'DOT1',
+    value: 'dot1',
+    contractAddress: '0x6204C4B26b54E77D1922B6Baa9Db14A0840f6E96',
+  },
+  {
+    title: 'DOT2',
+    value: 'dot2',
+    contractAddress: '0xEc471246fE38e2d1D729C9172c04A774B35CEfE9',
+  },
+  {
+    title: 'EOS',
+    value: 'eos',
+    contractAddress: '0xbd601AD300a68D3ABA4a1Ee7b950FEe3659C5820',
+  },
+  {
+    title: 'ETC1',
+    value: 'etc1',
+    contractAddress: '0x39229615A63B19aba2352443ACf5FadFD50bC71E',
+  },
+  {
+    title: 'ETC2',
+    value: 'etc2',
+    contractAddress: '0x3FCBD5f03CBf0148a551B24604E1d964B444412e',
+  },
+  {
+    title: 'FIVE',
+    value: 'five',
+    contractAddress: '0xdF32c0FE26beaf540Ac566D305EdBeB1EF187736',
+  },
+  {
+    title: 'FXS',
+    value: 'fxs',
+    contractAddress: '0x9fb946dC240EFCB2A1ef05711C401d431741E813',
+  },
+  {
+    title: 'GRT',
+    value: 'grt',
+    contractAddress: '0xe3a8E664F9c931169B1c49F72Eddc4aD83a5Bbbf',
+  },
+  {
+    title: 'GT',
+    value: 'gt',
+    contractAddress: '0x72FD4ECC641524b374d9A1F0af82E626432B5A12',
+  },
+  {
+    title: 'HT1',
+    value: 'ht1',
+    contractAddress: '0x070178104E13c70095978F1C16d15Fd41Dcb69f2',
+  },
+  {
+    title: 'HT2',
+    value: 'ht2',
+    contractAddress: '0x22cEA48E9a4Bbc758486679595C755e381c1d35A',
+  },
+  {
+    title: 'HT3',
+    value: 'ht3',
+    contractAddress: '0xd36BD74C2191ef4765E49126665f29deD248A7f7',
+  },
+  {
+    title: 'IMX1',
+    value: 'imx1',
+    contractAddress: '0x2BC5A310D144012038De208d722e4f28DE9BC9D9',
+  },
+  {
+    title: 'IMX2',
+    value: 'imx2',
+    contractAddress: '0xb372FD3b0cb799B75Ae42Dd3A9E4fD82Cc61a0B6',
+  },
+  {
+    title: 'KAR',
+    value: 'kar',
+    contractAddress: '0x242c83D88e6bD89f96ad0aC519B5D2Ab156a3677',
+  },
+  {
+    title: 'KCS',
+    value: 'kcs',
+    contractAddress: '0xA1cc7a4A026c0f6863AbD39Ed2e82f3d593093bC',
+  },
+  {
+    title: 'LDO1',
+    value: 'ldo1',
+    contractAddress: '0x61FFAc6763656b92f86FfAC028AA7032a1A3731b',
+  },
+  {
+    title: 'LDO2',
+    value: 'ldo2',
+    contractAddress: '0xf5Cb8c8244668be78F9e4C44de45abecb91d4E35',
+  },
+  {
+    title: 'LTC1',
+    value: 'ltc1',
+    contractAddress: '0x6295Be677C77d825eDf74cD9548c5641787c65B7',
+  },
+  {
+    title: 'LTC2',
+    value: 'ltc2',
+    contractAddress: '0xeB3845Df0dB0D931c2E9d4aC6FC329C3E5501646',
+  },
+  {
+    title: 'MANA',
+    value: 'mana',
+    contractAddress: '0x19E385A5fFf38bEC53957890FaEC31B16D8e16Bd',
+  },
+  {
+    title: 'MINA1',
+    value: 'mina1',
+    contractAddress: '0x873042d599199dbC824c7621D7D50b41Aa42B496',
+  },
+  {
+    title: 'MINA2',
+    value: 'mina2',
+    contractAddress: '0xe5C371258017a23A1D2D91667F870a41C39D9260',
+  },
+  {
+    title: 'MINA3',
+    value: 'mina3',
+    contractAddress: '0xFea3C345eA426c9fDfD7d4EEE8010Fab3B95C3e4',
+  },
+  {
+    title: 'MIOTA1',
+    value: 'miota1',
+    contractAddress: '0x19efE2f4eBe9f4830345a21921513FA8DF46bB16',
+  },
+  {
+    title: 'MIOTA2',
+    value: 'miota2',
+    contractAddress: '0x9c729a4ca36F5FA80FF3811ae217Bfc85d40144C',
+  },
+  {
+    title: 'PEP',
+    value: 'pep',
+    contractAddress: '0x1f77997e0F19690c54Db44E3c0166280895fa944',
+  },
+  {
+    title: 'QNT',
+    value: 'qnt',
+    contractAddress: '0x9e21377145c724d86ee4F3C35aAce8cDb5e913f1',
+  },
+  {
+    title: 'SAND1',
+    value: 'sand1',
+    contractAddress: '0xAA68aeC2542041c58eECdE629Be814b8b86a0c3D',
+  },
+  {
+    title: 'SAND2',
+    value: 'sand2',
+    contractAddress: '0xB0a83B21638AA531DF64F44D5DeC9f78Dd105E9c',
+  },
+  {
+    title: 'SNX',
+    value: 'snx',
+    contractAddress: '0x448A7826C949D0f9681CF8d0331f9BE06296eF52',
+  },
 ]
