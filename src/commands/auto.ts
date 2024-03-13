@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import fsp from 'node:fs/promises'
 import c from 'picocolors'
 import prompts from 'prompts'
+import { uniqBy } from 'lodash-es'
 import { Wallet } from 'zksync-web3'
 import { csv2json, json2csv } from 'json-2-csv'
 import {
@@ -51,10 +52,13 @@ function processData(data: Data) {
     return filteredSource[Math.floor(Math.random() * filteredSource.length)]
   }
   const [max, min] = [getRandomEdge('max'), getRandomEdge('min')]
-  const filteredModules = [
-    ...modules.filter((m) => m.value === min.value),
-    ...modules.filter((m) => m.value !== max.value),
-  ]
+  const filteredModules = uniqBy(
+    [
+      ...modules.filter((m) => m.value === min.value),
+      ...modules.filter((m) => m.value !== max.value),
+    ],
+    'value',
+  )
   const randomModule = filteredModules.sort(() => Math.random() - 0.5)[0]
   return [data, randomModule.value] as [Data, string]
 }
@@ -74,10 +78,13 @@ async function filterData(data: Data[]) {
     }
 
     const [max, min] = [getRandomEdge('max'), getRandomEdge('min')]
-    filteredData = [
-      ...data.filter((d) => d.address === min.address),
-      ...data.filter((d) => d.address !== max.address),
-    ]
+    filteredData = uniqBy(
+      [
+        ...data.filter((d) => d.address === min.address),
+        ...data.filter((d) => d.address !== max.address),
+      ],
+      'address',
+    )
       .sort(() => Math.random() - 0.5)
       .slice(0, Number(process.env.ACCOUNT))
   }
