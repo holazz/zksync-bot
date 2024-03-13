@@ -39,7 +39,24 @@ async function reward() {
     }
   })
   const res = await Promise.all(promises)
-  console.log(res)
+  console.log(
+    res
+      .filter(
+        (r) => r.socketscanReward.length || r.acrossReward.deposits.length,
+      )
+      .map((r) => {
+        return {
+          label: r.label,
+          address: r.address,
+          socketscanReward: r.socketscanReward.length
+            ? 'https://www.socketscan.io/rewards'
+            : '',
+          acrossReward: r.acrossReward.deposits.length
+            ? 'https://app.across.to/rewards/optimism-grant-program'
+            : '',
+        }
+      }),
+  )
 }
 
 reward()

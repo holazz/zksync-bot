@@ -51,9 +51,10 @@ function processData(data: Data) {
     return filteredSource[Math.floor(Math.random() * filteredSource.length)]
   }
   const [max, min] = [getRandomEdge('max'), getRandomEdge('min')]
-  const filteredModules = modules.filter(
-    (m) => m.value !== max.value && m.value !== min.value,
-  )
+  const filteredModules = [
+    ...modules.filter((m) => m.value === min.value),
+    ...modules.filter((m) => m.value !== max.value),
+  ]
   const randomModule = filteredModules.sort(() => Math.random() - 0.5)[0]
   return [data, randomModule.value] as [Data, string]
 }
@@ -72,11 +73,11 @@ async function filterData(data: Data[]) {
       return filteredSource[Math.floor(Math.random() * filteredSource.length)]
     }
 
-    filteredData = data
-      .filter((d) => {
-        const [max, min] = [getRandomEdge('max'), getRandomEdge('min')]
-        return d.address !== max.address && d.address !== min.address
-      })
+    const [max, min] = [getRandomEdge('max'), getRandomEdge('min')]
+    filteredData = [
+      ...data.filter((d) => d.address === min.address),
+      ...data.filter((d) => d.address !== max.address),
+    ]
       .sort(() => Math.random() - 0.5)
       .slice(0, Number(process.env.ACCOUNT))
   }
